@@ -1,4 +1,4 @@
-#Hadoop总结—思维导图
+# Hadoop总结—思维导图
 ## 概述
 最近在学习Hadoop系统，目前学习了HDFS、Mapreduce、HBase、Hive、Zookeeper这些组件，因此尝试将学习的东西用思维导图的形式做一个总结回顾。
 
