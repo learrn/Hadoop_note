@@ -1,11 +1,11 @@
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class Percolation {
-	private int n;
-	private int gridLength;
+	private final int n;
+	private final int gridLength;
 	private boolean isPercolated;
 	private boolean[] gridOpen;
-	private WeightedQuickUnionUF unionInstance;
+	private final WeightedQuickUnionUF unionInstance;
 	private boolean[] connectTop;
 	private boolean[] connectBottom;
 
@@ -30,18 +30,21 @@ public class Percolation {
 		gridOpen[cellId] = true;
 		int[] dx = { -1, 0, 0, 1 };
 		int[] dy = { 0, -1, 1, 0 };
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < dy.length; i++) {
 			int posX = row + dx[i];
 			int posY = col + dy[i];
+			if (posX == 1 && posY == 3) {
+				System.out.println("here");
+			}
 			if (isPosValid(posX, posY) && isOpen(posX, posY)) {
 				int posId = rc2id(posX, posY);
-				unionInstance.union(cellId, posId);
 				if (connectTop[unionInstance.find(posId)]) {
 					connectTop[unionInstance.find(cellId)] = true;
 				}
 				if (connectBottom[unionInstance.find(posId)]) {
 					connectBottom[unionInstance.find(cellId)] = true;
 				}
+				unionInstance.union(cellId, posId);
 			}
 		}
 		if (1 == row) {
@@ -59,7 +62,6 @@ public class Percolation {
 	}
 
 	private void validateIJ(int row, int col) {
-		System.out.println(row + " " + col);
 		if (!(row >= 1 && row <= n && col >= 1 && col <= n)) {
 			throw new IndexOutOfBoundsException("Index is not betwwen 1 and N");
 		}
@@ -79,6 +81,10 @@ public class Percolation {
 
 	public boolean isFull(int row, int col) {
 		validateIJ(row, col);
+		for (int i = 0; i < connectBottom.length; i++) {
+			System.out.println(connectTop[i]);
+		}
+		
 		return connectTop[unionInstance.find(rc2id(row, col))];
 	}
 
@@ -94,8 +100,12 @@ public class Percolation {
 	public boolean percolates() {
 		return isPercolated;
 	}
-
-	public static void main(String[] args) {
-		
-	}
+	
+//	public static void main(String[] args) {
+//      Percolation p = new Percolation(3);
+//      p.open(1, 3);
+//      p.open(2, 3);
+//      p.open(3, 3);
+//      System.out.println(p.isFull(3, 3));
+//	}
 }

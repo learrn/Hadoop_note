@@ -1,8 +1,9 @@
 import edu.princeton.cs.algs4.StdRandom;
+import edu.princeton.cs.algs4.StdStats;
 
 public class PercolationStats {
-	private double[] x;
-	private int expTimes;
+	private final double[] x;
+	private final int expTimes;
 
 	public PercolationStats(int n, int trials) {
 		if (n <= 0 || trials <= 0) {
@@ -36,23 +37,11 @@ public class PercolationStats {
 	}
 
 	public double mean() {
-		double mu = 0.0;
-		for (int i = 1; i <= expTimes; ++i) {
-			mu += x[i];
-		}
-		return mu / (double) expTimes;
+		return StdStats.mean(x);
 	}
 
 	public double stddev() {
-		if (expTimes == 1) {
-			return Double.NaN;
-		}
-		double sigma = 0.0;
-		double mu = mean();
-		for (int i = 1; i <= expTimes; ++i) {
-			sigma += (x[i] - mu) * (x[i] - mu);
-		}
-		return Math.sqrt(sigma / (double) (expTimes - 1));
+		return StdStats.stddev(x);
 	}
 
 	public double confidenceLo() {
